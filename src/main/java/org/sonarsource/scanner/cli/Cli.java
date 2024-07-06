@@ -30,6 +30,7 @@ class Cli {
   private boolean displayVersionOnly = false;
   private boolean embedded = false;
   private String invokedFrom = "";
+  private boolean skipReportUpload = false;
   private final Properties props = new Properties();
   private final Exit exit;
   private final Logs logger;
@@ -49,6 +50,10 @@ class Cli {
 
   boolean isEmbedded() {
     return embedded;
+  }
+
+  boolean shouldSkipReportUpload() {
+    return skipReportUpload;
   }
 
   String getInvokedFrom() {
@@ -105,6 +110,10 @@ class Cli {
       if (arg.length() > "--from=".length()) {
         invokedFrom = arg.substring("--from=".length());
       }
+
+    } else if ("--skip-report-upload".equals(arg)) {
+      skipReportUpload = true;
+      props.setProperty("sonar.skipReportUpload", "true");
 
     } else if (arg.startsWith("-D")) {
       arg = arg.substring(2);
